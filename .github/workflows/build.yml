@@ -14,9 +14,18 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [beyond2lte]
+        target: [a23]
 
     steps:
+    
+    - name: Send Start Notification
+        run: |
+          ACTION_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          curl -X POST https://api.telegram.org/bot5477489617:AAHFxTxuvPGgGM_QmoWtIYBPouv-OnTHL64/sendMessage \
+            -d chat_id="-1001538361307" \
+            -d text="📦 Build started for target: ${{ github.event.inputs.DEVICE_CODENAME }}. [View Actions]($ACTION_URL)" \
+            -d parse_mode="Markdown"
+            
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
@@ -80,3 +89,28 @@ jobs:
         run: |
           source ./buildenv.sh ${{ matrix.target }}
           ./scripts/make_rom.sh --no-rom-zip --no-rom-tar
+          
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v4.5.0
+        with:
+          name: build-artifact
+          path: |
+            /home/runner/work/UN1CA/UN1CA/out/*.zip*
+             - name: Send Success Notification
+        if: success()
+        run: |
+          ACTION_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          ARTIFACT_URL="https://github.com/${{ github.repository }}/runs/${{ github.run_id }}/artifacts"
+          curl -X POST https://api.telegram.org/bot5477489617:AAHFxTxuvPGgGM_QmoWtIYBPouv-OnTHL64/sendMessage \
+            -d chat_id="-1001538361307" \
+            -d text="✅ Build finished successfully for target: ${{ github.event.inputs.DEVICE_CODENAME }}. [Download ROM]($ARTIFACT_URL) [View Actions]($ACTION_URL)" \
+            -d parse_mode="Markdown"
+
+      - name: Send Failure Notification
+        if: failure()
+        run: |
+          ACTION_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          curl -X POST https://api.telegram.org/bot5477489617:AAHFxTxuvPGgGM_QmoWtIYBPouv-OnTHL64/sendMessage \
+            -d chat_id="-1001538361307" \
+            -d text="❌ Build failed for target: ${{ github.event.inputs.DEVICE_CODENAME }}. [View Actions]($ACTION_URL)" \
+            -d parse_mode="Markdown"
