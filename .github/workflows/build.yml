@@ -23,7 +23,7 @@ jobs:
           ACTION_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           curl -X POST https://api.telegram.org/bot5477489617:AAHFxTxuvPGgGM_QmoWtIYBPouv-OnTHL64/sendMessage \
             -d chat_id="-1001538361307" \
-            -d text="📦 Build started for target: ${{ github.event.inputs.DEVICE_CODENAME }}. [View Actions]($ACTION_URL)" \
+            -d text="📦 Build started for target: A23. [View Actions]($ACTION_URL)" \
             -d parse_mode="Markdown"
             
     - name: Checkout repo
@@ -104,7 +104,7 @@ jobs:
           ARTIFACT_URL="https://github.com/${{ github.repository }}/runs/${{ github.run_id }}/artifacts"
           curl -X POST https://api.telegram.org/bot5477489617:AAHFxTxuvPGgGM_QmoWtIYBPouv-OnTHL64/sendMessage \
             -d chat_id="-1001538361307" \
-            -d text="✅ Build finished successfully for target: ${{ github.event.inputs.DEVICE_CODENAME }}. [Download ROM]($ARTIFACT_URL) [View Actions]($ACTION_URL)" \
+            -d text="✅ Build finished successfully for target: A23. [Download ROM]($ARTIFACT_URL) [View Actions]($ACTION_URL)" \
             -d parse_mode="Markdown"
 
     - name: Send Failure Notification
@@ -113,5 +113,5 @@ jobs:
           ACTION_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           curl -X POST https://api.telegram.org/bot5477489617:AAHFxTxuvPGgGM_QmoWtIYBPouv-OnTHL64/sendMessage \
             -d chat_id="-1001538361307" \
-            -d text="❌ Build failed for target: ${{ github.event.inputs.DEVICE_CODENAME }}. [View Actions]($ACTION_URL)" \
+            -d text="❌ Build failed for target:A23. [View Actions]($ACTION_URL)" \
             -d parse_mode="Markdown"
