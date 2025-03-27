@@ -24,7 +24,7 @@ ROM_CODENAME="Eureka"
 case "$TARGET_SINGLE_SYSTEM_IMAGE" in
     # Qualcomm
     "qssi_64")
-        # Galaxy S25 Ultra (One UI 7)
+        # Galaxy A36 5G (One UI 7)
         SOURCE_FIRMWARE="SM-A366E/ZTO/356597450035295"
         SOURCE_EXTRA_FIRMWARES=()
         SOURCE_API_LEVEL=35
